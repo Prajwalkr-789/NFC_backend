@@ -57,10 +57,14 @@ const decryptAES = (data, key) => {
 
 
 const writeontag = async (req, res) => {
-    const { tagId, phoneNumber } = req.body;
+    const { tagId, phoneNumber, token } = req.body;
 
-    if (!tagId || !phoneNumber) {
-        return res.status(400).json({ success: false, message: 'Tag ID and Phone Number are required.' });
+    if (!tagId || !phoneNumber || !token) {
+        return res.status(400).json({ success: false, message: 'Tag ID and Phone Number and token are required.' });
+    }
+
+    if(token != 'top_secret') {
+        return res.staus(402).json({success: false, message: 'Forbidden only admins have access'});
     }
 
     try {
@@ -146,7 +150,5 @@ const validateTag = async (req, res) => {
         });
     }
 };
-
-
 
 module.exports = { addUser , writeontag , validateTag };
