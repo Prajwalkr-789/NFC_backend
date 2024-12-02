@@ -4,9 +4,7 @@ const express = require('express');
 const Tag = require('../models/Tag');
 require('dotenv').config();
 
-const GLOBAL_KEY = crypto.randomBytes(16).toString('hex'); // Generates a 32-character (16-byte) key
-console.log('Generated GLOBAL_KEY:', GLOBAL_KEY);
-
+const GLOBAL_KEY = "ef8254f33bfb45f0560bd466ba51360c"; 
 
 const addUser = async (req, res) => {
     const { name, phoneNumber, address } = req.body;
