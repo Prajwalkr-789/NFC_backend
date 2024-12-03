@@ -5,9 +5,10 @@ const crypto = require('crypto');
 const User = require('./models/User'); 
 const connection = require('./DB/database')
 const route = require('./routes/route')
-
+const cors = require("cors");
 const app = express();
 app.use(bodyParser.json());
+app.use(cors({ origin: "https://nfc-frontend2.vercel.app" }));
 
 connection()
 

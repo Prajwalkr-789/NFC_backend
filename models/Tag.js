@@ -11,9 +11,6 @@ const tagSchema = new mongoose.Schema({
   
   module.exports = Tag;
 
-
-
-
 //   interface ->  userid 
 //                 tagid
 
