@@ -73,7 +73,7 @@ const writeontag = async (req, res) => {
         const encryptedPhoneNumber = encryptAES(phoneNumber, privateKey);
 
         // Combine tagId with the encrypted phone number
-        const combinedString = `${tagId}:${encryptedPhoneNumber}`;
+        const combinedString = `${tagId}#${encryptedPhoneNumber}`;
 
         // Encrypt the combined string with the global key
         const encryptedTagData = encryptAES(combinedString, GLOBAL_KEY);
@@ -99,7 +99,7 @@ const writeontag = async (req, res) => {
 };
 
 const validateTag = async (req, res) => {
-    const { encryptedData } = req.body;
+    const { tid, encryptedData } = req.body;
 
     if (!encryptedData) {
         return res.status(400).json({ success: false, message: 'Encrypted data is required.' });
@@ -110,7 +110,7 @@ const validateTag = async (req, res) => {
         const decryptedData = decryptAES(encryptedData, GLOBAL_KEY);
 
         // Step 2: Split the decrypted string by ':'
-        const [tagId, encryptedPhoneNumber] = decryptedData.split(':');
+        const [tagId, encryptedPhoneNumber] = decryptedData.split('#');
         if (!tagId || !encryptedPhoneNumber) {
             return res.status(400).json({ success: false, message: 'Invalid data format.' });
         }
@@ -120,7 +120,9 @@ const validateTag = async (req, res) => {
         if (!tag) {
             return res.status(404).json({ success: false, message: 'Tag not found.' });
         }
-
+        if(tid !== tagId) {
+            return res.status(404).json({ success: false, message: 'Tag cloning suspect, auth failed' });
+        }
         const privateKey = tag.privateKey;
 
         // Step 4: Decrypt the encrypted phone number using the private key
