@@ -120,9 +120,9 @@ const validateTag = async (req, res) => {
         if (!tag) {
             return res.status(404).json({ success: false, message: 'Tag not found.' });
         }
-        if(tid !== tagId) {
-            return res.status(404).json({ success: false, message: 'Tag cloning suspect, auth failed' });
-        }
+        // if(tid !== tagId) {
+        //     return res.status(404).json({ success: false, message: 'Tag cloning suspect, auth failed' });
+        // }
         const privateKey = tag.privateKey;
 
         // Step 4: Decrypt the encrypted phone number using the private key
